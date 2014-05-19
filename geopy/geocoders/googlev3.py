@@ -171,7 +171,7 @@ class GoogleV3(Geocoder):
         )
 
     def reverse(self, query, language=None, # pylint: disable=W0221,R0913
-                    sensor=False, exactly_one=False, timeout=None):
+                    sensor=False, exactly_one=False, timeout=None, result_type=None, location_type=None):
         """
         Given a point, find an address.
 
@@ -198,8 +198,18 @@ class GoogleV3(Geocoder):
             'latlng': self._coerce_point_to_string(query),
             'sensor': str(sensor).lower()
         }
+        
+        if self.api_key:
+            params['key'] = self.api_key
+                    
         if language:
             params['language'] = language
+
+        if result_type:
+            params['result_type'] = result_type      
+
+        if location_type:
+            params['location_type'] = location_type   
 
         if not self.premier:
             url = "?".join((self.api, urlencode(params)))
