@@ -232,7 +232,8 @@ class GooglePlaces(Geocoder):
             return None
 
         def parse_place(place):
-            '''Get the location, lat, lng from a single json place.'''            
+            '''Get the location, lat, lng from a single json place.''' 
+            #print("place", place)            
             location = place.get('name') + ", " + place.get('vicinity')
             latitude = place['geometry']['location']['lat']
             longitude = place['geometry']['location']['lng']
