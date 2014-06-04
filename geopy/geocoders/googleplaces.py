@@ -216,16 +216,15 @@ class GooglePlaces(Geocoder):
         else:
             url = self._get_signed_url(params)
 
-        #print(url)
+        #print("GOOGLE URL %s" % url)
 
-        logger.debug("%s.reverse: %s", self.__class__.__name__, url)
+        #logger.debug("%s.reverse: %s", self.__class__.__name__, url)
         return self._parse_json(
             self._call_geocoder(url, timeout=timeout), exactly_one
         )
 
     def _parse_json(self, page, exactly_one=True):
         '''Returns location, (latitude, longitude) from json feed.'''
-
         places = page.get('results', [])
         if not len(places):
             self._check_status(page.get('status'))
@@ -233,8 +232,9 @@ class GooglePlaces(Geocoder):
 
         def parse_place(place):
             '''Get the location, lat, lng from a single json place.''' 
-            #print("place", place)            
-            location = place.get('name') + ", " + place.get('vicinity')
+            location = place.get('name')
+            if 'vicinity' in place:
+                location = location + ", " + place.get('vicinity')
             latitude = place['geometry']['location']['lat']
             longitude = place['geometry']['location']['lng']
             return Location(location, (latitude, longitude), place)
