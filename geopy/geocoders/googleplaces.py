@@ -209,7 +209,7 @@ class GooglePlaces(Geocoder):
             params['radius'] = radius      
 
         if types:
-            params['types'] = types   
+            params['result_type'] = types   
 
         if not self.premier:
             url = "?".join((self.api, urlencode(params)))
