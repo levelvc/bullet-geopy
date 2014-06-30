@@ -171,7 +171,7 @@ class GooglePlaces(Geocoder):
         )
 
     def reverse(self, query, language=None, # pylint: disable=W0221,R0913
-                    sensor=False, exactly_one=False, timeout=None, radius=500, types=None):
+                    sensor=False, exactly_one=False, timeout=None, radius=500, types=None, rankby=None):
         """
         Given a point, find an address.
 
@@ -209,7 +209,11 @@ class GooglePlaces(Geocoder):
             params['radius'] = radius      
 
         if types:
-            params['result_type'] = types   
+            #params['result_type'] = types   
+            params['types'] = types   
+
+        if rankby:
+            params['rankby'] = rankby              
 
         if not self.premier:
             url = "?".join((self.api, urlencode(params)))
